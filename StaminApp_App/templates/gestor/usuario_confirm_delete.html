@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Eliminar cliente{% endblock %}
+{% block page_title %}Eliminar cliente{% endblock %}
+{% block content %}
+  <div class="card">
+    <p>¿Seguro que quieres eliminar al cliente #{{ usuario.pk }}?</p>
+    <form method="post">{% csrf_token %}
+      <button class="btn btn-danger" type="submit">Sí, eliminar</button>
+      <a class="btn btn-outline" href="{% url 'gestor-usuario-detail' usuario.pk %}">Cancelar</a>
+    </form>
+  </div>
+{% endblock %}

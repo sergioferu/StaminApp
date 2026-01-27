@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Pago exitoso{% endblock %}
+{% block page_title %}Compra completada{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Pago realizado correctamente</h2>
+    <p><strong>Producto:</strong> {{ pago.producto.nombre }}</p>
+    <p><strong>Monto:</strong> {{ pago.monto }}€</p>
+    <p><strong>Metodo de pago:</strong> {{ pago.get_metodo_pago_display }}</p>
+    <p><strong>Fecha:</strong> {{ pago.fecha }}</p>
+    <p><strong>ID de pago:</strong> {{ pago.id }}</p>
+    
+    <div style="margin-top:20px;">
+        <a href="{% url 'mis_pagos' %}">Ver mis pagos</a>
+        <a href="{% url 'lista_productos' %}">Seguir comprando</a>
+    </div>
+</div>
+{% endblock %}
