@@ -11,6 +11,7 @@ class Usuario(AbstractUser):
     )
 
     rol = models.CharField(max_length=10, choices=ROLES)
+    telefono = models.CharField(max_length=20, blank=True)
     fin_bono = models.DateField(null=True, blank=True)
 
     def bono_activo(self):
