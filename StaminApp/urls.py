@@ -16,8 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from StaminApp_App.views import *
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('usuario/', UsuarioListView.as_view(), name='usuario-list'),
+    path('usuario/nuevo/', UsuarioCreateView.as_view(), name='usuario-create'),
+
 ]
