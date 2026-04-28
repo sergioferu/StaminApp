@@ -3,33 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Usuarios</title>
+    <title>Mi Ficha</title>
 </head>
 <body>
-    <h1>Lista de Usuarios</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Username</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Email</th>
-                <th>Teléfono</th>
-                <th>Rol</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for usuario in usuarios %}
-            <tr>
-                <td>{{ usuario.username }}</td>
-                <td>{{ usuario.first_name }}</td>
-                <td>{{ usuario.last_name }}</td>
-                <td>{{ usuario.email }}</td>
-                <td>{{ usuario.telefono }}</td>
-                <td>{{ usuario.rol }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <nav>
+      <a href="/">Home</a>
+      <a href="{% url 'logout' %}">Logout</a>
+    </nav>
+
+    <h1>Mi ficha</h1>
+    <div class="card">
+      {% if usuario %}
+        {% with u=usuario.0 %}
+          <p><strong>Nombre:</strong> {{ u.nombre }}</p>
+          <p><strong>Email:</strong> {{ u.email }}</p>
+          <p><a class="btn btn-primary" href="{% url 'usuario-update' u.pk %}">Editar</a></p>
+        {% endwith %}
+      {% else %}
+        <p>No hay datos.</p>
+      {% endif %}
+    </div>
 </body>
 </html>

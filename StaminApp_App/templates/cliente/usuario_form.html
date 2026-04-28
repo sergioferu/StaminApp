@@ -6,11 +6,17 @@
     <title>Formulario de Usuario</title>
 </head>
 <body>
-    <h1>Formulario de Usuario</h1>
-    <form method="post">
-        {% csrf_token %}
+    <nav>
+      <a href="/">Home</a>
+      <a href="{% url 'logout' %}">Logout</a>
+    </nav>
+
+    <h1>Editar mi ficha</h1>
+    <div class="card">
+      <form method="post">{% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Guardar</button>
-    </form>
+        <button class="btn btn-primary" type="submit">Guardar</button>
+      </form>
+    </div>
 </body>
 </html>

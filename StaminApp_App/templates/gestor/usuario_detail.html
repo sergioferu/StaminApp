@@ -1,22 +1,12 @@
-<html>
-  <body>
-    <nav>
-      <a href="/">Home</a>
-      <a href="{% url 'gestor-usuario-list' %}">Clientes</a>
-      <a href="{% url 'gestor-usuario-create' %}">Crear cliente</a>
-      <a href="{% url 'logout' %}">Logout</a>
-    </nav>
-
-    <h1>Detalle del cliente #{{ usuario.pk }}</h1>
-    <ul>
-      <li>Nombre: {{ usuario.nombre }}</li>
-      <li>Email: {{ usuario.email }}</li>
-      <!-- Añadir más campos según el modelo -->
-    </ul>
-    <p>
-      <a href="{% url 'gestor-usuario-update' usuario.pk %}">Editar</a> |
-      <a href="{% url 'gestor-usuario-delete' usuario.pk %}">Eliminar</a> |
-      <a href="{% url 'gestor-usuario-list' %}">Volver a la lista</a>
-    </p>
-  </body>
-</html>
+{% extends 'base.html' %}
+{% block title %}Detalle cliente{% endblock %}
+{% block page_title %}Detalle cliente{% endblock %}
+{% block content %}
+  <div class="card">
+    <p><strong>Nombre:</strong> {{ usuario.nombre }}</p>
+    <p><strong>Email:</strong> {{ usuario.email }}</p>
+    <div class="divider"></div>
+    <a class="btn btn-outline" href="{% url 'gestor-usuario-update' usuario.pk %}">Editar</a>
+    <a class="btn btn-danger" href="{% url 'gestor-usuario-delete' usuario.pk %}">Eliminar</a>
+  </div>
+{% endblock %}

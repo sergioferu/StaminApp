@@ -18,10 +18,21 @@ class UsuarioListView(ListView): # Vista solo para los clientes
     def get_queryset(self):
         return Usuario.objects.filter(id=self.request.user.id)
 
+class UsuarioCreateView(CreateView):
+    model = Usuario
+    form_class = UsuarioForm
+    template_name = 'cliente/usuario_form.html'
+    success_url = '/usuario/'
+
 class UsuarioUpdateView(UpdateView):
     model = Usuario
     form_class = UsuarioForm
     template_name = 'cliente/usuario_form.html'
+    success_url = '/usuario/'
+
+class UsuarioDeleteView(DeleteView):
+    model = Usuario
+    template_name = 'cliente/usuario_confirm_delete.html'
     success_url = '/usuario/'
 
 # Vistas solo para gestores: ver, editar y eliminar clientes
@@ -42,6 +53,12 @@ class GestorUsuarioDetailView(GestorRequiredMixin, DetailView):
     template_name = 'gestor/usuario_detail.html'
     context_object_name = 'usuario'
 
+class GestorUsuarioCreateView(GestorRequiredMixin, CreateView):
+    model = Usuario
+    form_class = UsuarioForm
+    template_name = 'gestor/usuario_form.html'
+    success_url = '/gestor/usuarios/'
+
 class GestorUsuarioUpdateView(GestorRequiredMixin, UpdateView):
     model = Usuario
     form_class = UsuarioForm
@@ -53,12 +70,6 @@ class GestorUsuarioDeleteView(GestorRequiredMixin, DeleteView):
     template_name = 'gestor/usuario_confirm_delete.html'
     success_url = '/gestor/usuarios/'
 
-class GestorUsuarioCreateView(GestorRequiredMixin, CreateView):
-    model = Usuario
-    form_class = UsuarioForm
-    template_name = 'gestor/usuario_form.html'
-    success_url = '/gestor/usuarios/'
-
 # Login/logout comunes
 class UserLoginView(LoginView):
     template_name = 'login.html'
@@ -66,3 +77,6 @@ class UserLoginView(LoginView):
 
 class UserLogoutView(LogoutView):
     next_page = '/'
+
+def home(request):
+    return render(request, 'cliente/genericos.html')

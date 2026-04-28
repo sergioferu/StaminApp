@@ -1,0 +1,280 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard — GymApp{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block topbar_actions %}
+  {% if user.rol == 'GESTOR' or user.rol == 'ADMIN' %}
+    <a href="{% url 'usuarios_crear' %}" class="btn btn-primary btn-sm">+ Nuevo usuario</a>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+
+  <!-- ── STATS SEGÚN ROL ── -->
+
+  {% if user.rol == 'GESTOR' or user.rol == 'ADMIN' %}
+  <div class="stats-grid">
+    <div class="stat-card">
+      <p class="stat-label">Clientes activos</p>
+      <p class="stat-value accent">{{ total_clientes }}</p>
+      <p class="stat-sub">con bono vigente</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-label">Clases hoy</p>
+      <p class="stat-value">{{ clases_hoy }}</p>
+      <p class="stat-sub">programadas</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-label">Bonos por vencer</p>
+      <p class="stat-value danger">{{ bonos_proximos }}</p>
+      <p class="stat-sub">en los próximos 7 días</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-label">Ingresos del mes</p>
+      <p class="stat-value success">{{ ingresos_mes }}€</p>
+      <p class="stat-sub">pagos registrados</p>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if user.rol == 'CLIENTE' %}
+  <div class="stats-grid">
+    <div class="stat-card">
+      <p class="stat-label">Estado del bono</p>
+      {% if user.bono_activo %}
+        <p class="stat-value success">ACTIVO</p>
+        <p class="stat-sub">vence el {{ user.fin_bono }}</p>
+      {% else %}
+        <p class="stat-value danger">INACTIVO</p>
+        <p class="stat-sub">sin bono vigente</p>
+      {% endif %}
+    </div>
+    <div class="stat-card">
+      <p class="stat-label">Clases apuntadas</p>
+      <p class="stat-value accent">{{ mis_clases }}</p>
+      <p class="stat-sub">próximas</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-label">Marcas registradas</p>
+      <p class="stat-value">{{ mis_marcas }}</p>
+      <p class="stat-sub">ejercicios</p>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- ── GRID PRINCIPAL ── -->
+
+  {% if user.rol == 'GESTOR' or user.rol == 'ADMIN' %}
+
+  <div class="grid-2">
+
+    <!-- Próximas clases -->
+    <div class="card">
+      <div class="card-header">
+        <p class="card-title">Próximas clases</p>
+        <a href="{% url 'clases_lista' %}" class="btn btn-outline btn-sm">Ver todas</a>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Disciplina</th>
+              <th>Fecha / Hora</th>
+              <th>Monitor</th>
+              <th>Plazas</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for clase in proximas_clases %}
+            <tr>
+              <td>{{ clase.disciplina }}</td>
+              <td class="text-muted">{{ clase.fecha }} {{ clase.hora_inicio|time:"H:i" }}</td>
+              <td>{{ clase.monitor }}</td>
+              <td>
+                {% if clase.plazas_disponibles == 0 %}
+                  <span class="badge badge-danger">Completa</span>
+                {% elif clase.plazas_disponibles <= 3 %}
+                  <span class="badge badge-warning">{{ clase.plazas_disponibles }} libre{{ clase.plazas_disponibles|pluralize }}</span>
+                {% else %}
+                  <span class="badge badge-success">{{ clase.plazas_disponibles }} libres</span>
+                {% endif %}
+              </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4" class="text-muted">No hay clases programadas.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Últimos pagos -->
+    <div class="card">
+      <div class="card-header">
+        <p class="card-title">Últimos pagos</p>
+        <a href="{% url 'pagos_lista' %}" class="btn btn-outline btn-sm">Ver todos</a>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Cliente</th>
+              <th>Producto</th>
+              <th>Importe</th>
+              <th>Método</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for pago in ultimos_pagos %}
+            <tr>
+              <td>{{ pago.usuario.username }}</td>
+              <td class="text-muted">{{ pago.producto }}</td>
+              <td class="text-accent">{{ pago.monto }}€</td>
+              <td>
+                <span class="badge badge-muted">{{ pago.get_metodo_pago_display }}</span>
+              </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4" class="text-muted">Sin pagos recientes.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Bonos por vencer -->
+    <div class="card col-span-2">
+      <div class="card-header">
+        <p class="card-title">Bonos próximos a vencer (7 días)</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Cliente</th>
+              <th>Email</th>
+              <th>Vencimiento</th>
+              <th>Estado</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for cliente in bonos_vencer %}
+            <tr>
+              <td>{{ cliente.get_full_name|default:cliente.username }}</td>
+              <td class="text-muted">{{ cliente.email }}</td>
+              <td>{{ cliente.fin_bono }}</td>
+              <td>
+                {% if cliente.bono_activo %}
+                  <span class="badge badge-warning">Vence pronto</span>
+                {% else %}
+                  <span class="badge badge-danger">Vencido</span>
+                {% endif %}
+              </td>
+              <td>
+                <a href="{% url 'pago_crear' cliente.pk %}" class="btn btn-outline btn-sm">Renovar bono</a>
+              </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5" class="text-muted">No hay bonos por vencer.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  {% endif %}
+
+  <!-- ── DASHBOARD CLIENTE ── -->
+  {% if user.rol == 'CLIENTE' %}
+
+  <div class="grid-2">
+
+    <!-- Bono -->
+    <div class="card">
+      <div class="card-header">
+        <p class="card-title">Mi bono</p>
+        <a href="{% url 'mi_bono' %}" class="btn btn-outline btn-sm">Detalle</a>
+      </div>
+      {% if user.bono_activo %}
+        <p class="font-bebas" style="font-size:32px; color: var(--success);">ACTIVO</p>
+        <p class="text-muted mt-8">Válido hasta <strong style="color:var(--text)">{{ user.fin_bono }}</strong></p>
+        <div class="bono-bar-wrap mt-16">
+          <div class="bono-bar {% if dias_restantes <= 7 %}danger{% elif dias_restantes <= 14 %}warning{% endif %}"
+               style="width: {{ bono_porcentaje }}%"></div>
+        </div>
+        <p class="text-sm text-muted mt-8">{{ dias_restantes }} día{{ dias_restantes|pluralize }} restante{{ dias_restantes|pluralize }}</p>
+      {% else %}
+        <p class="font-bebas" style="font-size:32px; color: var(--danger);">INACTIVO</p>
+        <p class="text-muted mt-8">No tienes un bono activo. Contacta con recepción.</p>
+      {% endif %}
+    </div>
+
+    <!-- Próximas clases del cliente -->
+    <div class="card">
+      <div class="card-header">
+        <p class="card-title">Mis próximas clases</p>
+        <a href="{% url 'clases_disponibles' %}" class="btn btn-primary btn-sm">+ Apuntarme</a>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Disciplina</th><th>Fecha</th><th>Hora</th><th></th></tr>
+          </thead>
+          <tbody>
+            {% for inscripcion in mis_proximas_clases %}
+            <tr>
+              <td>{{ inscripcion.clase.disciplina }}</td>
+              <td class="text-muted">{{ inscripcion.clase.fecha }}</td>
+              <td class="text-muted">{{ inscripcion.clase.hora_inicio|time:"H:i" }}</td>
+              <td>
+                <form method="post" action="{% url 'cancelar_inscripcion' inscripcion.pk %}" style="display:inline">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger btn-sm">Cancelar</button>
+                </form>
+              </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4" class="text-muted">Sin clases próximas.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Marcas recientes -->
+    <div class="card col-span-2">
+      <div class="card-header">
+        <p class="card-title">Últimas marcas registradas</p>
+        <a href="{% url 'mis_marcas' %}" class="btn btn-outline btn-sm">Ver todas</a>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Ejercicio</th><th>Peso</th><th>Reps</th><th>Tiempo</th><th>Fecha</th><th>Notas</th></tr>
+          </thead>
+          <tbody>
+            {% for marca in ultimas_marcas %}
+            <tr>
+              <td>{{ marca.ejercicio }}</td>
+              <td>{% if marca.peso %}{{ marca.peso }} kg{% else %}<span class="text-muted">—</span>{% endif %}</td>
+              <td>{% if marca.repeticiones %}{{ marca.repeticiones }}{% else %}<span class="text-muted">—</span>{% endif %}</td>
+              <td>{% if marca.tiempo %}{{ marca.tiempo }}{% else %}<span class="text-muted">—</span>{% endif %}</td>
+              <td class="text-muted">{{ marca.fecha }}</td>
+              <td class="text-muted text-sm">{{ marca.observaciones|truncatewords:6 }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="6" class="text-muted">Sin marcas registradas aún.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+  {% endif %}
+
+{% endblock %}
