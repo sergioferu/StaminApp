@@ -1,0 +1,17 @@
+<html>
+  <body>
+    <nav>
+      <a href="/">Home</a>
+      <a href="{% url 'gestor-usuario-list' %}">Clientes</a>
+      <a href="{% url 'gestor-usuario-create' %}">Crear cliente</a>
+      <a href="{% url 'logout' %}">Logout</a>
+    </nav>
+
+    <h1>{% if usuario %}Editar cliente{% else %}Crear cliente{% endif %}</h1>
+    <form method="post">{% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Guardar</button>
+    </form>
+    <p><a href="{% url 'gestor-usuario-list' %}">Volver a la lista</a></p>
+  </body>
+</html>

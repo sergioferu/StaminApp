@@ -1,0 +1,17 @@
+<html>
+  <body>
+    <nav>
+      <a href="/">Home</a>
+      <a href="{% url 'gestor-usuario-list' %}">Clientes</a>
+      <a href="{% url 'gestor-usuario-create' %}">Crear cliente</a>
+      <a href="{% url 'logout' %}">Logout</a>
+    </nav>
+
+    <h1>Confirmar eliminación</h1>
+    <p>¿Seguro que quieres eliminar al cliente #{{ usuario.pk }}?</p>
+    <form method="post">{% csrf_token %}
+      <button type="submit">Sí, eliminar</button>
+      <a href="{% url 'gestor-usuario-detail' usuario.pk %}">Cancelar</a>
+    </form>
+  </body>
+</html>

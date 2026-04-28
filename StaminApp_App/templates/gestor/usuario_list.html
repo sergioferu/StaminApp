@@ -1,0 +1,23 @@
+<html>
+  <body>
+    <nav>
+      <a href="/">Home</a>
+      <a href="{% url 'gestor-usuario-list' %}">Clientes</a>
+      <a href="{% url 'gestor-usuario-create' %}">Crear cliente</a>
+      <a href="{% url 'logout' %}">Logout</a>
+    </nav>
+
+    <h1>Clientes</h1>
+    <ul>
+      {% for u in usuarios %}
+        <li>
+          <a href="{% url 'gestor-usuario-detail' u.pk %}">#{{ u.pk }} - {{ u }}</a>
+          - <a href="{% url 'gestor-usuario-update' u.pk %}">Editar</a>
+          - <a href="{% url 'gestor-usuario-delete' u.pk %}">Eliminar</a>
+        </li>
+      {% empty %}
+        <li>No hay clientes.</li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

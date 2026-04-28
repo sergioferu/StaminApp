@@ -22,6 +22,16 @@ from StaminApp_App.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('usuario/', UsuarioListView.as_view(), name='usuario-list'),
-    path('usuario/nuevo/', UsuarioCreateView.as_view(), name='usuario-create'),
+
+    # Autenticación (única para cliente y gestor)
+    path('login/', UserLoginView.as_view(), name='login'),
+    path('logout/', UserLogoutView.as_view(), name='logout'),
+
+    # Rutas para gestores: listar, ver detalle, editar y eliminar clientes
+    path('gestor/usuarios/', GestorUsuarioListView.as_view(), name='gestor-usuario-list'),
+    path('gestor/usuario/nuevo/', GestorUsuarioCreateView.as_view(), name='gestor-usuario-create'),
+    path('gestor/usuario/<int:pk>/', GestorUsuarioDetailView.as_view(), name='gestor-usuario-detail'),
+    path('gestor/usuario/<int:pk>/editar/', GestorUsuarioUpdateView.as_view(), name='gestor-usuario-update'),
+    path('gestor/usuario/<int:pk>/eliminar/', GestorUsuarioDeleteView.as_view(), name='gestor-usuario-delete'),
 
 ]
