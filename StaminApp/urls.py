@@ -27,6 +27,7 @@ urlpatterns = [
     # Rutas cliente
     path('usuario/', UsuarioListView.as_view(), name='usuario-list'),
     path('usuario/nuevo/', UsuarioCreateView.as_view(), name='usuario-create'),
+
     path('usuario/<int:pk>/editar/', UsuarioUpdateView.as_view(), name='usuario-update'),
     path('usuario/<int:pk>/eliminar/', UsuarioDeleteView.as_view(), name='usuario-delete'),
 

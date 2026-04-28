@@ -79,4 +79,4 @@ class UserLogoutView(LogoutView):
     next_page = '/'
 
 def home(request):
-    return render(request, 'cliente/genericos.html')
+    return render(request, 'base.html')
