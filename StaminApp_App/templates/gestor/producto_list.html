@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Productos (gestor){% endblock %}
+{% block page_title %}Productos - Gestión{% endblock %}
+{% block content %}
+  <div class="card">
+    <a class="btn btn-primary" href="{% url 'gestor-producto-create' %}">Nuevo producto</a>
+    <div class="divider"></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>ID</th><th>Nombre</th><th>Precio</th><th>Acciones</th></tr></thead>
+        <tbody>
+          {% for p in productos %}
+            <tr>
+              <td>{{ p.pk }}</td>
+              <td>{{ p.nombre }}</td>
+              <td>{{ p.precio }}</td>
+              <td>
+                <a class="btn btn-outline btn-sm" href="{% url 'gestor-producto-update' p.pk %}">Editar</a>
+                <a class="btn btn-danger btn-sm" href="{% url 'gestor-producto-delete' p.pk %}">Eliminar</a>
+              </td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="4">No hay productos.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

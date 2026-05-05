@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Productos{% endblock %}
+{% block page_title %}Productos{% endblock %}
+{% block content %}
+  <div class="card">
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Nombre</th><th>Precio</th><th></th></tr></thead>
+        <tbody>
+          {% for p in productos %}
+            <tr>
+              <td>{{ p.nombre }}</td>
+              <td>{{ p.precio }}</td>
+              <td><a class="btn btn-outline" href="{% url 'producto-detail' p.pk %}">Ver</a></td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="3">No hay productos.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

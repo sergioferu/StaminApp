@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Producto{% endblock %}
+{% block page_title %}Producto{% endblock %}
+{% block content %}
+  <div class="card">
+    <h3>{{ producto.nombre }}</h3>
+    <p>{{ producto.descripcion }}</p>
+    <p><strong>Precio:</strong> {{ producto.precio }}</p>
+  </div>
+{% endblock %}
