@@ -1,11 +1,17 @@
 {% extends 'base.html' %}
-{% block title %}Producto{% endblock %}
-{% block page_title %}Producto{% endblock %}
+
+{% block title %}{% if form.instance.pk %}Editar{% else %}Crear{% endif %} Producto{% endblock %}
+{% block page_title %}{% if form.instance.pk %}Editar{% else %}Nuevo{% endif %} Producto{% endblock %}
+
 {% block content %}
-  <div class="card">
-    <form method="post">{% csrf_token %}
-      {{ form.as_p }}
-      <button class="btn btn-primary" type="submit">Guardar</button>
+<div class="card">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div style="margin-top: 20px;">
+            <button type="submit" style="background:#28a745; color:white; padding:10px 15px; border:none; border-radius:5px;">Guardar</button>
+            <a href="{% url 'gestor_productos' %}" style="background:#6c757d; color:white; padding:10px 15px; text-decoration:none; border-radius:5px;">Cancelar</a>
+        </div>
     </form>
-  </div>
+</div>
 {% endblock %}

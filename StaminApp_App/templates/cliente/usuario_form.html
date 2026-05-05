@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends "base.html" %}
 {% block title %}Editar ficha{% endblock %}
 {% block page_title %}Editar ficha{% endblock %}
@@ -12,5 +13,27 @@
         </form>
       </div>
     {% endblock %}
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Usuario</title>
+</head>
+<body>
+    <nav>
+      <a href="/">Home</a>
+      <a href="{% url 'logout' %}">Logout</a>
+    </nav>
+
+    <h1>Editar mi ficha</h1>
+    <div class="card">
+      <form method="post">{% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary" type="submit">Guardar</button>
+      </form>
+    </div>
+>>>>>>> 933ea9ffa1336192aa23bd046bfaafe10f84c8e0
 </body>
 </html>

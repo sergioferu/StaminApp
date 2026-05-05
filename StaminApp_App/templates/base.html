@@ -261,7 +261,7 @@
 </head>
 <body>
 
-  <!-- SIDEBAR -->
+  <!-- ── SIDEBAR ── -->
   <aside class="sidebar">
     <div class="sidebar-brand">
       <h1>{% block brand %}GYM{% endblock %}</h1>
@@ -277,7 +277,7 @@
           <span class="icon">▦</span> Dashboard
         </a>
 
-        {# CLIENTE: acceso rápido a su ficha y productos #}
+        <!-- CLIENTE -->
         {% if user.rol == 'CLIENTE' %}
           <p class="nav-section-label">Mi área</p>
           <a href="{% url 'usuario-list' %}" class="nav-link {% if request.resolver_match.url_name == 'usuario-list' %}active{% endif %}">
@@ -286,26 +286,20 @@
           <a href="{% url 'usuario-update' request.user.id %}" class="nav-link">
             <span class="icon">✎</span> Editar ficha
           </a>
-          <a href="{% url 'producto-list' %}" class="nav-link {% if request.resolver_match.url_name == 'producto-list' %}active{% endif %}">
-            <span class="icon">▣</span> Productos
-          </a>
         {% endif %}
 
-        {# GESTOR: gestión de usuarios y productos #}
+        <!-- GESTOR -->
         {% if user.rol == 'GESTOR' %}
           <p class="nav-section-label">Gestión</p>
           <a href="{% url 'gestor-usuario-list' %}" class="nav-link {% if 'gestor-usuario' in request.resolver_match.url_name %}active{% endif %}">
             <span class="icon">◎</span> Usuarios
           </a>
-          <a href="{% url 'gestor-producto-list' %}" class="nav-link {% if 'gestor-producto' in request.resolver_match.url_name %}active{% endif %}">
-            <span class="icon">▣</span> Productos
-          </a>
-          <a href="{% url 'gestor-pago-list' %}" class="nav-link {% if request.resolver_match.url_name == 'gestor-pago-list' %}active{% endif %}">
-            <span class="icon">▤</span> Pagos
+          <a href="{% url 'gestor-usuario-create' %}" class="nav-link">
+            <span class="icon">＋</span> Crear cliente
           </a>
         {% endif %}
 
-        {# ADMIN: acceso al admin Django #}
+        <!-- ADMIN -->
         {% if user.is_superuser %}
           <p class="nav-section-label">Administración</p>
           <a href="/admin/" class="nav-link">
@@ -320,6 +314,7 @@
 
     </nav>
 
+    <!-- Footer sidebar: info usuario + logout -->
     {% if user.is_authenticated %}
     <div class="sidebar-footer">
       <div class="user-card">
@@ -329,19 +324,28 @@
           <strong>{{ user.username }}</strong>
         </div>
       </div>
-      <a href="{% url 'logout' %}" class="btn btn-outline" style="display:block;margin-top:12px;text-align:center;">Cerrar sesión</a>
+      <a href="{% url 'logout' %}" class="btn btn-outline" style="display:block;margin-top:12px;text-align:center;">
+        Cerrar sesión
+      </a>
     </div>
     {% endif %}
   </aside>
 
-  <!-- MAIN -->
+  <!-- ── MAIN ── -->
   <main class="main">
+
+    <!-- Topbar -->
     <div class="topbar">
       <h2 class="topbar-title">{% block page_title %}Dashboard{% endblock %}</h2>
-      <div class="topbar-actions">{% block topbar_actions %}{% endblock %}</div>
+      <div class="topbar-actions">
+        {% block topbar_actions %}{% endblock %}
+      </div>
     </div>
 
+    <!-- Content -->
     <div class="content">
+
+      <!-- Django messages -->
       {% if messages %}
       <div class="messages-container">
         {% for message in messages %}

@@ -1,12 +1,17 @@
 {% extends 'base.html' %}
-{% block title %}Eliminar producto{% endblock %}
-{% block page_title %}Eliminar producto{% endblock %}
+
+{% block title %}Eliminar Producto{% endblock %}
+{% block page_title %}Confirmar eliminacion{% endblock %}
+
 {% block content %}
-  <div class="card">
-    <p>¿Seguro que quieres eliminar el producto <strong>{{ object.nombre }}</strong>?</p>
-    <form method="post">{% csrf_token %}
-      <button class="btn btn-danger" type="submit">Sí, eliminar</button>
-      <a class="btn btn-outline" href="{% url 'gestor-producto-list' %}">Cancelar</a>
+<div class="card">
+    <p>¿Estas seguro de eliminar el producto "{{ object.nombre }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <div style="margin-top: 20px;">
+            <button type="submit" style="background:#dc3545; color:white; padding:10px 15px; border:none; border-radius:5px;">Si, eliminar</button>
+            <a href="{% url 'gestor_productos' %}" style="background:#6c757d; color:white; padding:10px 15px; text-decoration:none; border-radius:5px;">Cancelar</a>
+        </div>
     </form>
-  </div>
+</div>
 {% endblock %}

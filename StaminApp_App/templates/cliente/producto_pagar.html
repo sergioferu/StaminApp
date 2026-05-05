@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Pagar producto{% endblock %}
+{% block page_title %}Completar pago{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Producto: {{ producto.nombre }}</h2>
+    <p><strong>Precio:</strong> ${{ producto.precio }}</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="monto">Monto a pagar:</label>
+            <input type="number" id="monto" name="monto" step="0.01" value="{{ producto.precio }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="metodo_pago">Método de pago:</label>
+            <select id="metodo_pago" name="metodo_pago" required>
+                <option value="">Seleccione...</option>
+                <option value="tarjeta">Tarjeta de crédito/débito</option>
+                <option value="paypal">PayPal</option>
+                <option value="transferencia">Transferencia bancaria</option>
+                <option value="efectivo">Efectivo</option>
+            </select>
+        </div>
+        
+        <button type="submit" style="background:#007bff; color:white; padding:10px 20px; border:none; border-radius:5px;">Pagar ahora</button>
+    </form>
+</div>
+{% endblock %}

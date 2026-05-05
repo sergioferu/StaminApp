@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Productos disponibles{% endblock %}
+{% block page_title %}Productos{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Productos disponibles</h2>
+    <div class="productos-grid">
+        {% for producto in productos %}
+        <div class="producto-item" style="border:1px solid #ddd; margin:10px; padding:15px; border-radius:8px;">
+            <h3>{{ producto.nombre }}</h3>
+            <p>{{ producto.descripcion }}</p>
+            <p><strong>Precio:</strong> ${{ producto.precio }}</p>
+            <a href="{% url 'pagar_producto' producto.id %}" style="background:#28a745; color:white; padding:8px 15px; text-decoration:none; border-radius:5px;">Comprar</a>
+        </div>
+        {% empty %}
+        <p>No hay productos disponibles.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

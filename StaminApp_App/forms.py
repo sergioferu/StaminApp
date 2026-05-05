@@ -1,5 +1,5 @@
 from django import forms
-from .models import Usuario
+from .models import Usuario, Producto
 
 
 class UsuarioForm(forms.ModelForm):
@@ -17,3 +17,15 @@ class UsuarioForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+
+try:
+    from .models import Producto
+
+    class ProductoForm(forms.ModelForm):
+        class Meta:
+            model = Producto
+            fields = '__all__'
+except ImportError:
+    # models.Producto may not exist yet
+    pass
