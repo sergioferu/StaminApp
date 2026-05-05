@@ -33,7 +33,7 @@ urlpatterns = [
 
     # Autenticación (única para cliente y gestor)
     path('login/', UserLoginView.as_view(), name='login'),
-    path('logout/', UserLogoutView.as_view(), name='logout'),
+    path('logout/', logout_view, name='logout'),
 
     # Rutas para gestores: listar, ver detalle, crear, editar y eliminar clientes
     path('gestor/usuarios/', GestorUsuarioListView.as_view(), name='gestor-usuario-list'),
@@ -41,5 +41,19 @@ urlpatterns = [
     path('gestor/usuario/<int:pk>/', GestorUsuarioDetailView.as_view(), name='gestor-usuario-detail'),
     path('gestor/usuario/<int:pk>/editar/', GestorUsuarioUpdateView.as_view(), name='gestor-usuario-update'),
     path('gestor/usuario/<int:pk>/eliminar/', GestorUsuarioDeleteView.as_view(), name='gestor-usuario-delete'),
+
+    # Productos (cliente)
+    path('productos/', ProductoListView.as_view(), name='producto-list'),
+    path('producto/<int:pk>/', ProductoDetailView.as_view(), name='producto-detail'),
+
+    # Productos gestor
+    path('gestor/productos/', GestorProductoListView.as_view(), name='gestor-producto-list'),
+    path('gestor/producto/nuevo/', GestorProductoCreateView.as_view(), name='gestor-producto-create'),
+    path('gestor/producto/<int:pk>/editar/', GestorProductoUpdateView.as_view(), name='gestor-producto-update'),
+    path('gestor/producto/<int:pk>/eliminar/', GestorProductoDeleteView.as_view(), name='gestor-producto-delete'),
+
+    # Pagos / ventas
+    path('gestor/pagos/', GestorPagoListView.as_view(), name='gestor-pago-list'),
+    path('gestor/productos/ventas/', GestorProductoVentasView.as_view(), name='gestor-producto-ventas'),
 
 ]
