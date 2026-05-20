@@ -8,9 +8,9 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <div style="margin-top: 20px;">
-            <button type="submit" style="background:#28a745; color:white; padding:10px 15px; border:none; border-radius:5px;">Guardar</button>
-            <a href="{% url 'gestor_productos' %}" style="background:#6c757d; color:white; padding:10px 15px; text-decoration:none; border-radius:5px;">Cancelar</a>
+        <div style="margin-top: 12px;">
+            <button class="btn btn-primary" type="submit">Guardar</button>
+            <a class="btn btn-outline" href="{% url 'gestor-producto-list' %}">Cancelar</a>
         </div>
     </form>
 </div>

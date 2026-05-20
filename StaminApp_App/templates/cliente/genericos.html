@@ -4,5 +4,12 @@
 {% block content %}
   <div class="card">
     <p>Bienvenido al panel.</p>
+    {% if user.is_authenticated and user.rol|lower == 'gestor' %}
+      <p><a class="btn btn-primary" href="{% url 'gestor-usuario-list' %}">Ir a usuarios</a></p>
+    {% elif user.is_authenticated %}
+      <p><a class="btn btn-primary" href="{% url 'usuario-list' %}">Mi ficha</a></p>
+    {% else %}
+      <p><a class="btn btn-primary" href="{% url 'login' %}">Acceder</a></p>
+    {% endif %}
   </div>
 {% endblock %}

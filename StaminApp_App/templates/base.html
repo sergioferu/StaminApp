@@ -283,8 +283,13 @@
           <a href="{% url 'usuario-list' %}" class="nav-link {% if request.resolver_match.url_name == 'usuario-list' %}active{% endif %}">
             <span class="icon">◈</span> Mi ficha
           </a>
-          <a href="{% url 'usuario-update' request.user.id %}" class="nav-link">
+          <a href="{% url 'usuario-update' request.user.id %}" class="nav-link {% if request.resolver_match.url_name == 'usuario-update' %}active{% endif %}">
             <span class="icon">✎</span> Editar ficha
+          </a>
+
+          <p class="nav-section-label">Productos</p>
+          <a href="{% url 'producto-list' %}" class="nav-link {% if request.resolver_match.url_name == 'producto-list' %}active{% endif %}">
+            <span class="icon">▣</span> Ver productos
           </a>
         {% endif %}
 
@@ -294,8 +299,17 @@
           <a href="{% url 'gestor-usuario-list' %}" class="nav-link {% if 'gestor-usuario' in request.resolver_match.url_name %}active{% endif %}">
             <span class="icon">◎</span> Usuarios
           </a>
-          <a href="{% url 'gestor-usuario-create' %}" class="nav-link">
-            <span class="icon">＋</span> Crear cliente
+
+          <a href="{% url 'gestor-producto-list' %}" class="nav-link {% if 'gestor-producto' in request.resolver_match.url_name %}active{% endif %}">
+            <span class="icon">▣</span> Productos
+          </a>
+
+          <a href="{% url 'gestor-pago-list' %}" class="nav-link {% if request.resolver_match.url_name == 'gestor-pago-list' %}active{% endif %}">
+            <span class="icon">▤</span> Pagos
+          </a>
+
+          <a href="{% url 'gestor-producto-ventas' %}" class="nav-link {% if request.resolver_match.url_name == 'gestor-producto-ventas' %}active{% endif %}">
+            <span class="icon">◑</span> Ventas por producto
           </a>
         {% endif %}
 

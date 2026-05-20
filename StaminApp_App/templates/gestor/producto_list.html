@@ -1,46 +1,40 @@
 {% extends 'base.html' %}
 
-{% block title %}Productos{% endblock %}
-{% block page_title %}Gestion de Productos{% endblock %}
+{% block title %}Productos (gestor){% endblock %}
+{% block page_title %}Productos - Gestión{% endblock %}
 
 {% block content %}
 <div class="card">
-    <div style="margin-bottom: 20px;">
-        <a href="{% url 'gestor_producto_crear' %}" style="background:#28a745; color:white; padding:10px 15px; text-decoration:none; border-radius:5px;">Nuevo Producto</a>
+    <a class="btn btn-primary" href="{% url 'gestor-producto-create' %}">Nuevo producto</a>
+    <div class="divider"></div>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in productos %}
+                <tr>
+                    <td>{{ p.pk }}</td>
+                    <td>{{ p.nombre }}</td>
+                    <td>{{ p.precio }}</td>
+                    <td>
+                        <a class="btn btn-outline btn-sm" href="{% url 'gestor-producto-update' p.pk %}">Editar</a>
+                        <a class="btn btn-danger btn-sm" href="{% url 'gestor-producto-delete' p.pk %}">Eliminar</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">No hay productos.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
-    
-    <table style="width:100%; border-collapse:collapse;">
-        <thead>
-            <tr>
-                <th style="border-bottom:2px solid #ddd; padding:10px; text-align:left;">ID</th>
-                <th style="border-bottom:2px solid #ddd; padding:10px; text-align:left;">Nombre</th>
-                <th style="border-bottom:2px solid #ddd; padding:10px; text-align:left;">Precio</th>
-                <th style="border-bottom:2px solid #ddd; padding:10px; text-align:left;">Tipo</th>
-                <th style="border-bottom:2px solid #ddd; padding:10px; text-align:left;">Duracion (dias)</th>
-                <th style="border-bottom:2px solid #ddd; padding:10px; text-align:left;">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for producto in productos %}
-            <tr>
-                <td style="padding:10px; border-bottom:1px solid #ddd;">{{ producto.id }}</td>
-                <td style="padding:10px; border-bottom:1px solid #ddd;">{{ producto.nombre }}</td>
-                <td style="padding:10px; border-bottom:1px solid #ddd;">{{ producto.precio }}€</td>
-                <td style="padding:10px; border-bottom:1px solid #ddd;">
-                    {% if producto.tipo == 1 %}Tienda{% else %}Bono{% endif %}
-                </td>
-                <td style="padding:10px; border-bottom:1px solid #ddd;">{{ producto.duracion|default:"-" }}</td>
-                <td style="padding:10px; border-bottom:1px solid #ddd;">
-                    <a href="{% url 'gestor_producto_editar' producto.id %}">Editar</a> |
-                    <a href="{% url 'gestor_producto_eliminar' producto.id %}" style="color:red;">Eliminar</a>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="6" style="padding:10px; text-align:center;">No hay productos registrados.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
 </div>
 {% endblock %}

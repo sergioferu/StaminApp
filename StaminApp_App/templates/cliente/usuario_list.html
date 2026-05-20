@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {% extends "base.html" %}
 {% block title %}Ficha{% endblock %}
 {% block page_title %}Mi Ficha{% endblock %}
@@ -17,32 +16,3 @@
         {% endif %}
       </div>
     {% endblock %}
-=======
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Ficha</title>
-</head>
-<body>
-    <nav>
-      <a href="/">Home</a>
-      <a href="{% url 'logout' %}">Logout</a>
-    </nav>
-
-    <h1>Mi ficha</h1>
-    <div class="card">
-      {% if usuario %}
-        {% with u=usuario.0 %}
-          <p><strong>Nombre:</strong> {{ u.nombre }}</p>
-          <p><strong>Email:</strong> {{ u.email }}</p>
-          <p><a class="btn btn-primary" href="{% url 'usuario-update' u.pk %}">Editar</a></p>
-        {% endwith %}
-      {% else %}
-        <p>No hay datos.</p>
-      {% endif %}
-    </div>
->>>>>>> 933ea9ffa1336192aa23bd046bfaafe10f84c8e0
-</body>
-</html>

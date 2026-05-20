@@ -6,5 +6,6 @@
     <h3>{{ producto.nombre }}</h3>
     <p>{{ producto.descripcion }}</p>
     <p><strong>Precio:</strong> {{ producto.precio }}</p>
+    <p><a class="btn btn-outline" href="{% url 'producto-list' %}">Volver</a></p>
   </div>
 {% endblock %}
