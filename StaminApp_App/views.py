@@ -15,7 +15,7 @@ from datetime import timedelta
 
 # Create your views here.
 
-class UsuarioListView(ListView): # Vista solo para los clientes
+class UsuarioListView(ListView):
     model = Usuario
     template_name = 'cliente/usuario_list.html'
     context_object_name = 'usuario'
